@@ -50,7 +50,7 @@ namespace Serilog.Logfmt
                 msg = sw.ToLogfmtQuotedString(_options.DoubleQuotesAction);
             }
 
-            if (msg.Contains(" ") || msg.Contains("="))
+            if (msg.Length==0 || msg.Contains(" ") || msg.Contains("="))
             {
                 output.WriteLine($@"""{msg}""");
             }

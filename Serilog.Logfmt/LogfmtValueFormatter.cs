@@ -45,7 +45,7 @@ namespace Serilog.Logfmt
             var keyName = GetFullKeyName();
             var svalue = scalar.Value?.ToString() ?? "\"\"";
             state.Write("{0}=", keyName);
-            var needQuotes = svalue.Contains(" ") || svalue.Contains("=");
+            var needQuotes = svalue.Length==0 || svalue.Contains(" ") || svalue.Contains("=");
             if (needQuotes)
             {
                 switch (_options.DoubleQuotesAction)
