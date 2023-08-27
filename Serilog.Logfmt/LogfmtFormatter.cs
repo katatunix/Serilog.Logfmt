@@ -46,7 +46,10 @@ namespace Serilog.Logfmt
             var msg = "";
             using (var sw = new StringWriter())
             {
-                sw.WriteMessage(logEvent);   // Don't use logEvent.RenderMessage(sw) due to extra quotes added.
+                if (_options.RendersMsg)
+                    sw.WriteMessage(logEvent);   // Don't use logEvent.RenderMessage(sw) due to extra quotes added.
+                else
+                    sw.Write(logEvent.MessageTemplate.Text);
                 msg = sw.ToLogfmtQuotedString(_options.DoubleQuotesAction);
             }
 

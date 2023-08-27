@@ -44,6 +44,8 @@ namespace Serilog.Logfmt
         {
             var keyName = GetFullKeyName();
             var svalue = scalar.Value?.ToString() ?? "\"\"";
+            if (_options.WouldEscapeNewLines)
+                svalue = svalue.Replace("\n", "\\n").Replace("\r", "\\r");
             state.Write("{0}=", keyName);
             var needQuotes = svalue.Length==0 || svalue.Contains(" ") || svalue.Contains("=") || svalue.Contains("\"");
             if (needQuotes)
@@ -59,7 +61,6 @@ namespace Serilog.Logfmt
                     case DoubleQuotesAction.Escape:
                         svalue = svalue.Replace(@"""", @"\""");
                         break;
-                    default: break;
                 }
             }
             state.Write("{1}{0}{1}", svalue, needQuotes ? "\"" : "");

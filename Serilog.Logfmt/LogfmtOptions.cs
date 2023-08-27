@@ -11,6 +11,8 @@ namespace Serilog.Logfmt
 
         internal bool NormalizeCase { get; private set; }
         internal bool GrafanaLevels { get; private set; }
+        internal bool RendersMsg { get; private set; }
+        internal bool WouldEscapeNewLines { get; private set; }
 
         internal LogExceptionOptions ExceptionOptions {get;}
 
@@ -24,6 +26,8 @@ namespace Serilog.Logfmt
         {
             NormalizeCase = true;
             GrafanaLevels = true;
+            RendersMsg = true;
+            WouldEscapeNewLines = false;
             PropertyKeyFilter = k => false;
             ExceptionOptions = new LogExceptionOptions();
             DoubleQuotesAction = DoubleQuotesAction.ConvertToSingle;
@@ -54,12 +58,24 @@ namespace Serilog.Logfmt
             return this;
         }
 
+        public LogfmtOptions DisableMsgRendering()
+        {
+            RendersMsg = false;
+            return this;
+        }
+
+        public LogfmtOptions EscapeNewLines()
+        {
+            WouldEscapeNewLines = true;
+            return this;
+        }
+
         public LogfmtOptions IncludeAllProperties()
         {
             PropertyKeyFilter = k => true;
             return this;
         }
-        
+
         public LogfmtOptions OnException(Action<LogExceptionOptions> optionsAction)
         {
             optionsAction?.Invoke(ExceptionOptions);
