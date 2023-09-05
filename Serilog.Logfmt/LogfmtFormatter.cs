@@ -29,8 +29,8 @@ namespace Serilog.Logfmt
         {
             if (logEvent == null) throw new ArgumentNullException(nameof(logEvent));
             if (output == null) throw new ArgumentNullException(nameof(output));
-            output.Write("ts={0} ", logEvent.Timestamp.UtcDateTime.ToString("o"));
-            output.Write("level={0} ", _options.GrafanaLevels ? GrafanaLevelValue(logEvent.Level) : logEvent.Level.ToString());
+            output.Write("ts={0}", logEvent.Timestamp.UtcDateTime.ToString("o"));
+            output.Write(" level={0}", _options.GrafanaLevels ? GrafanaLevelValue(logEvent.Level) : logEvent.Level.ToString());
             var properties = logEvent.Properties.Where(p => _propertyKeyFilter(p.Key));
             if (properties.Any())
             {
@@ -42,7 +42,7 @@ namespace Serilog.Logfmt
                 }
             }
 
-            output.Write("msg=");
+            output.Write(" msg=");
             var msg = "";
             using (var sw = new StringWriter())
             {

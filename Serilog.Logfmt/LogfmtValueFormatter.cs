@@ -30,9 +30,7 @@ namespace Serilog.Logfmt
         {
             _keys.Add(key);
             Visit(output, value);
-            output.Write(" ");
             _keys.RemoveAt(_keys.Count - 1);
-
         }
 
         protected override bool VisitDictionaryValue(TextWriter state, DictionaryValue dictionary)
@@ -46,7 +44,7 @@ namespace Serilog.Logfmt
             var svalue = scalar.Value?.ToString() ?? "\"\"";
             if (_options.WouldEscapeNewLines)
                 svalue = svalue.Replace("\n", "\\n").Replace("\r", "\\r");
-            state.Write("{0}=", keyName);
+            state.Write(" {0}=", keyName);
             var needQuotes = svalue.Length==0 || svalue.Contains(" ") || svalue.Contains("=") || svalue.Contains("\"");
             if (needQuotes)
             {
